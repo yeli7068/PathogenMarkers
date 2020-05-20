@@ -76,6 +76,18 @@ plotROCgenes <- function(expr_annoted, traits, target = "flu", gene1 = "IFI27", 
     return(p)
 }
 
+multoplot <- function(ROCplot, OASLplot, IFI27plot, GSE) {
+    
+    p <- ggarrange(ROCplot,                                                 # First row with scatter plot
+                   ggarrange(
+                       OASLplot, IFI27plot, 
+                       ncol = 2, labels = c("B", "C")), # Second row with box and dot plots
+                   nrow = 2, 
+                   labels = "A"                                        # Labels of the scatter plot
+    ) 
+    ggsave(filename = paste(GSE,".pdf"), plot = p, width = 10, height = 8)
+}
+
 if(T){
     # GSE6269 FigS
     GSE6269 <- getGEO("GSE6269", AnnotGPL = F, getGPL = F, destdir = "./")
